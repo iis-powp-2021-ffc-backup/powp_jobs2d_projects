@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
@@ -19,12 +21,14 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
+import javax.swing.*;
+
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	/**
 	 * Setup test concerning preset figures in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
@@ -39,7 +43,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup test using driver commands in context.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupCommandTests(Application application) {
@@ -51,7 +55,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
@@ -80,7 +84,7 @@ public class TestJobs2dApp {
 
 	/**
 	 * Setup menu for adjusting logging settings.
-	 * 
+	 *
 	 * @param application Application context.
 	 */
 	private static void setupLogger(Application application) {
@@ -95,6 +99,36 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "Severe level",
 				(ActionEvent e) -> logger.setLevel(Level.SEVERE));
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
+	}
+
+	/**
+	 * Feature for drawing lines with mouse. Left click = draw line, Right click = operateTo
+	 *
+	 * @param application Application context.
+	 */
+	private static void mouseClickConverter(Application application) {
+		JPanel jPanel = application.getFreePanel();
+		jPanel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Left click
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					DriverFeature.getDriverManager()
+							.getCurrentDriver()
+							.operateTo(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
+					System.out.println("New position x= " + e.getX());
+				}
+
+				//Right click
+				if (SwingUtilities.isRightMouseButton(e)) {
+					DriverFeature.getDriverManager()
+							.getCurrentDriver()
+							.setPosition(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
+					System.out.println("Position saved x= " + e.getX());
+				}
+			}
+		});
 	}
 
 	/**
@@ -114,6 +148,7 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 
+				mouseClickConverter(app);
 				app.setVisibility(true);
 			}
 		});
