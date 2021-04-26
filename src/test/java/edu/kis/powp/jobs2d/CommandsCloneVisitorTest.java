@@ -4,7 +4,7 @@ import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
-import edu.kis.powp.jobs2d.visitor.DeepCopyCommandVisitor;
+import edu.kis.powp.jobs2d.command.visitor.DeepCopyCommandVisitor;
 import org.junit.Assert;
 import org.junit.Test;
 

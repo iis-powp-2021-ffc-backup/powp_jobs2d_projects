@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.visitor;
+package edu.kis.powp.jobs2d.command.visitor;
 
 import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
