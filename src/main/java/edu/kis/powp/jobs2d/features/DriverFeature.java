@@ -4,8 +4,9 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import edu.kis.powp.jobs2d.drivers.observer.ISubscriber;
 
-public class DriverFeature {
+public class DriverFeature implements ISubscriber {
 
     private static DriverManager driverManager = new DriverManager();
     private static Application app;
@@ -30,13 +31,23 @@ public class DriverFeature {
      * @param name   Button name.
      * @param driver Job2dDriver object.
      */
-    public static void addDriver(String name, Job2dDriver driver) {
+    public void addDriver(String name, Job2dDriver driver) {
         SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
+        listener.addSubscriber(this);
         app.addComponentMenuElement(DriverFeature.class, name, listener);
     }
 
     /**
+     * Called by IPublisher whenever something changes
+     */
+
+    public void update() {
+        app.updateInfo(driverManager.getCurrentDriver().toString());
+    }
+
+    /**
      * Update driver info.
+     * Should be avoided in favor of update()
      */
     @Deprecated
     public static void updateDriverInfo() {
