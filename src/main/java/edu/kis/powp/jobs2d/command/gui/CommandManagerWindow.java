@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -133,8 +135,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             this.setVisible(true);
         }
     }
-    private void loadCommandsFromJSON(String jsonInput) {
+    private void loadCommandsFromJSON(String path) {
         try {
+            String jsonInput = new String(Files.readAllBytes(Paths.get(path)));
             DataModel inputDataModel = jsonCommandParser.parse(jsonInput);
             commandManager.setCurrentCommand(
                     inputDataModel.getDriverCommand(),

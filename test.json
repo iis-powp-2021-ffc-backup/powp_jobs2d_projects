@@ -1,0 +1,75 @@
+{
+  "name": "test IIS",
+  "commands": [
+    {
+      "operation": "SetPositionCommand",
+      "posX": -20,
+      "posY": -50
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": -20,
+      "posY": -50
+    },
+    {
+      "operation": "SetPositionCommand",
+      "posX": -20,
+      "posY": -40
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": -20,
+      "posY": 50
+    },
+    {
+      "operation": "SetPositionCommand",
+      "posX": 0,
+      "posY": -50
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 0,
+      "posY": -50
+    },
+    {
+      "operation": "SetPositionCommand",
+      "posX": 0,
+      "posY": -40
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 0,
+      "posY": 50
+    },
+    {
+      "operation": "SetPositionCommand",
+      "posX": 70,
+      "posY": -50
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 20,
+      "posY": -50
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 20,
+      "posY": 0
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 70,
+      "posY": 0
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 70,
+      "posY": 50
+    },
+    {
+      "operation": "OperateToCommand",
+      "posX": 20,
+      "posY": 50
+    }
+  ]
+}
