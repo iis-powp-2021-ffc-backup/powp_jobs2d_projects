@@ -9,6 +9,7 @@ import edu.kis.powp.jobs2d.command.visitor.Visitor;
 public class SetPositionCommand implements DriverCommand {
 
     private int posX, posY;
+    private String name = "SetPosition";
 
     public SetPositionCommand(int posX, int posY) {
         super();

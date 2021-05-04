@@ -14,6 +14,15 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
+
+import edu.kis.powp.jobs2d.command.manager.parser.DataModel;
+import edu.kis.powp.jobs2d.command.manager.parser.JsonCommandParser;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
+
+
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private DriverCommandManager commandManager;
@@ -22,6 +31,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private String observerListString;
     private JTextArea observerListField;
+    private JTextArea InputCommandsTextArea;
+
+    private JsonCommandParser jsonCommandParser = new JsonCommandParser();
 
     /**
      *
@@ -55,6 +67,19 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(currentCommandField, c);
         updateCurrentCommandField();
+
+        InputCommandsTextArea = new JTextArea("");
+        InputCommandsTextArea.setEditable(true);
+        InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsTextArea.setLineWrap(true);
+
+        JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
+        content.add(InputCommandsField,c);
+
+        JButton jsonLoadCommands = new JButton("Load commands");
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonLoadCommands,c);
+
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -108,5 +133,16 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
             this.setVisible(true);
         }
     }
+    private void loadCommandsFromJSON(String jsonInput) {
+        try {
+            DataModel inputDataModel = jsonCommandParser.parse(jsonInput);
+            commandManager.setCurrentCommand(
+                    inputDataModel.getDriverCommand(),
+                    inputDataModel.getDriverCommandName()
+            );
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
+    }
 }

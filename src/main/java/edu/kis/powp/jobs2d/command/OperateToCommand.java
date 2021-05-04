@@ -9,6 +9,7 @@ import edu.kis.powp.jobs2d.command.visitor.Visitor;
 public class OperateToCommand implements DriverCommand {
 
     private int posX, posY;
+    private String name = "OperateTo";
 
     public OperateToCommand(int posX, int posY) {
         super();
