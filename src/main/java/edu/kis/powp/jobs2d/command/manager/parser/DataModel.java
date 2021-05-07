@@ -8,24 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataModel {
-    private static String SET_POSITION_COMMAND = "SetPositionCommand";
-    private static String OPERATE_TO_COMMAND = "OperateToCommand";
-
     private String name;
+
     static class Command {
-        String operation;
+        String name;
         int posX;
         int posY;
     }
-    private List<Command> commands;
+
+    private static final String SET_POSITION_COMMAND = "SetPosition";
+    private static final String OPERATE_TO_COMMAND = "OperateTo";
+
+    private List<Command> driverCommands;
 
     public List<DriverCommand> getDriverCommand() {
         List<DriverCommand> complexCommand = new ArrayList<>();
 
-        commands.forEach(command -> {
-            if(command.operation.equals(SET_POSITION_COMMAND)){
+        driverCommands.forEach(command -> {
+            if (command.name.equals(SET_POSITION_COMMAND)) {
                 complexCommand.add(new SetPositionCommand(command.posX, command.posY));
-            } else if (command.operation.equals(OPERATE_TO_COMMAND)) {
+            } else if (command.name.equals(OPERATE_TO_COMMAND)) {
                 complexCommand.add(new OperateToCommand(command.posX, command.posY));
             }
         });
