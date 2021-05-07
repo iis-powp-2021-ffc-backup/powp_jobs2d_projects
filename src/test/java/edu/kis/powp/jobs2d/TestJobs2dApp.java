@@ -13,10 +13,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
-import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -101,35 +98,6 @@ public class TestJobs2dApp {
 		application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
 	}
 
-	/**
-	 * Feature for drawing lines with mouse. Left click = draw line, Right click = operateTo
-	 *
-	 * @param application Application context.
-	 */
-	private static void mouseClickConverter(Application application) {
-		JPanel jPanel = application.getFreePanel();
-		jPanel.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Left click
-				if (SwingUtilities.isLeftMouseButton(e)) {
-					DriverFeature.getDriverManager()
-							.getCurrentDriver()
-							.operateTo(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
-					System.out.println("New position x= " + e.getX());
-				}
-
-				//Right click
-				if (SwingUtilities.isRightMouseButton(e)) {
-					DriverFeature.getDriverManager()
-							.getCurrentDriver()
-							.setPosition(e.getX() - jPanel.getWidth() / 2, e.getY() - jPanel.getHeight() / 2);
-					System.out.println("Position saved x= " + e.getX());
-				}
-			}
-		});
-	}
 
 	/**
 	 * Launch the application.
@@ -140,7 +108,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-
+				MouseListener mouseListener = new MouseListener();
 				DriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
 				setupPresetTests(app);
@@ -148,7 +116,7 @@ public class TestJobs2dApp {
 				setupLogger(app);
 				setupWindows(app);
 
-				mouseClickConverter(app);
+				mouseListener.mouseClickConverter(app);
 				app.setVisibility(true);
 			}
 		});
