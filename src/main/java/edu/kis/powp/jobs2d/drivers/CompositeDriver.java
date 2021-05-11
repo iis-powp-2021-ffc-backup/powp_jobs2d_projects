@@ -32,9 +32,11 @@ public class CompositeDriver implements Job2dDriver {
 
     @Override
     public void operateTo(int x, int y) {
+        this.distance += calculateDistance(x, startX, y, startY);
         drivers.forEach(e->e.operateTo(x, y));
         this.allOperations += drivers.size();
         this.usageSubscriber.setAllOperations(this.allOperations);
+        this.usageSubscriber.setDistance(distance);
 
     }
 

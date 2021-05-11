@@ -23,7 +23,7 @@ import edu.kis.powp.jobs2d.features.DriverFeature;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
+	private static UsageSubscriber usageSubscriber;
 	/**
 	 * Setup test concerning preset figures in context.
 	 * 
@@ -68,7 +68,7 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 
-		CompositeDriver compositeDriver = new CompositeDriver();
+		CompositeDriver compositeDriver = new CompositeDriver(usageSubscriber);
 		compositeDriver.add(loggerDriver);
 		compositeDriver.add(driver);
 		DriverFeature.addDriver("Composite Driver", compositeDriver);
@@ -82,7 +82,7 @@ public class TestJobs2dApp {
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
-		UsageSubscriber usageSubscriber = new UsageSubscriber(commandManager);
+		usageSubscriber = new UsageSubscriber(commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(usageSubscriber);
 
@@ -119,11 +119,11 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);
+				setupWindows(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
 				setupLogger(app);
-				setupWindows(app);
 
 				app.setVisibility(true);
 			}

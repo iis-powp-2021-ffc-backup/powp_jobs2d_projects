@@ -22,7 +22,7 @@ public class UsageSubscriber implements Subscriber {
         this.allOperations = allOperations;
     }
 
-    public void setDistance(float distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
