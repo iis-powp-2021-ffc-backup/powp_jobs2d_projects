@@ -5,6 +5,8 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.pow;
+
 public class CompositeDriver implements Job2dDriver {
 
     private List<Job2dDriver> drivers;
@@ -12,21 +14,28 @@ public class CompositeDriver implements Job2dDriver {
     private int allOperations = 0;
     private int startX = 0;
     private int startY = 0;
-    private float distance = 0;
-    public CompositeDriver(){
+    private double distance = 0;
+    private UsageSubscriber usageSubscriber;
+    public CompositeDriver(UsageSubscriber usageSubscriber){
         drivers = new ArrayList<>();
+        this.usageSubscriber = usageSubscriber;
     }
 
     @Override
     public void setPosition(int x, int y) {
         drivers.forEach(e->e.setPosition(x, y));
-        this.allOperations ++;
+        this.distance += calculateDistance(startX, x, startY, y);
+        this.setOperations += drivers.size();
+        this.usageSubscriber.setSetOperations(this.setOperations);
+
     }
 
     @Override
     public void operateTo(int x, int y) {
         drivers.forEach(e->e.operateTo(x, y));
-        this.allOperations ++;
+        this.allOperations += drivers.size();
+        this.usageSubscriber.setAllOperations(this.allOperations);
+
     }
 
     public void add(Job2dDriver driver){
@@ -41,18 +50,9 @@ public class CompositeDriver implements Job2dDriver {
         drivers.remove(children);
     }
 
-    public float getDistance() {
-        return distance;
+    private double calculateDistance(int x1, int x2, int y1, int y2){
+        return Math.ceil(Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
     }
-
-    public int getAllOperations() {
-        return allOperations;
-    }
-
-    public int getSetOperations() {
-        return setOperations;
-    }
-
     @Override
     public String toString(){
         return "Composite driver";

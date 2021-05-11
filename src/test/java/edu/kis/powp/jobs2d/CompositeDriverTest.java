@@ -4,6 +4,7 @@ import edu.kis.powp.jobs2d.drivers.CompositeDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,15 +31,16 @@ public class CompositeDriverTest {
 
     @Test
     void checkSizeOfChildrenList(){
-        assertEquals(2, compositeDriver.getChildren().size());
+        assertEquals(2, compositeDriver.getChildren().length);
         compositeDriver.remove(sampleDriver);
-        assertEquals(1, compositeDriver.getChildren().size());
+        assertEquals(1, compositeDriver.getChildren().length);
     }
 
     @Test
     void getChildrenTest(){
-        List<Job2dDriver> list = compositeDriver.getChildren();
-        assertTrue((list.contains(sampleDriver) && list.contains(testDriver)));
+        Job2dDriver[] array = compositeDriver.getChildren();
+        assertTrue(Arrays.stream(array).anyMatch(x-> x.equals(sampleDriver))
+                && Arrays.stream(array).anyMatch(x-> x.equals(testDriver)));
     }
 
 

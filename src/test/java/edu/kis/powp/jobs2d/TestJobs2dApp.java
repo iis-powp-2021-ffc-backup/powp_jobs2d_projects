@@ -11,6 +11,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
+import edu.kis.powp.jobs2d.drivers.UsageSubscriber;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -81,8 +82,12 @@ public class TestJobs2dApp {
 
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
+		UsageSubscriber usageSubscriber = new UsageSubscriber(commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(usageSubscriber);
+
 	}
+
 
 	/**
 	 * Setup menu for adjusting logging settings.
