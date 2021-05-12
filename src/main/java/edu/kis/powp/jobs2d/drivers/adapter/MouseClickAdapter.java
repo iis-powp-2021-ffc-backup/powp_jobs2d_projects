@@ -32,7 +32,6 @@ public class MouseClickAdapter implements MouseListener {
 
         if (SwingUtilities.isRightMouseButton(e)) {
             driverManager.getCurrentDriver().setPosition(x, y);
-            System.out.println("Position saved x= " + e.getX());
         }
     }
 
