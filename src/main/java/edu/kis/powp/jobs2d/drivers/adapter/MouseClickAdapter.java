@@ -2,6 +2,7 @@ package edu.kis.powp.jobs2d.drivers.adapter;
 
 
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
@@ -20,18 +21,24 @@ public class MouseClickAdapter implements MouseListener {
         this.driverManager = driverManager;
     }
 
+    public void enable(JPanel jPanel) {
+        jPanel.addMouseListener(this);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         x = e.getX() - jPanel.getWidth() / 2;
         y = e.getY() - jPanel.getHeight() / 2;
 
+        Job2dDriver job2dDriver = driverManager.getCurrentDriver();
+
         if (SwingUtilities.isLeftMouseButton(e)) {
-            driverManager.getCurrentDriver().operateTo(x, y);
+            job2dDriver.operateTo(x, y);
         }
 
         if (SwingUtilities.isRightMouseButton(e)) {
-            driverManager.getCurrentDriver().setPosition(x, y);
+            job2dDriver.setPosition(x, y);
+
         }
     }
 
