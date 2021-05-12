@@ -79,7 +79,7 @@ public class TestJobs2dApp {
 		DriverFeature.updateDriverInfo();
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), DriverFeature.getDriverManager());
 
-		application.getFreePanel().addMouseListener(mouseClickAdapter);
+		mouseClickAdapter.enable(application.getFreePanel());
 
 
 	}
