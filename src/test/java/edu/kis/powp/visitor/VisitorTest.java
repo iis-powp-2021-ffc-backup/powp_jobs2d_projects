@@ -1,7 +1,6 @@
 package edu.kis.powp.visitor;
 
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -25,13 +24,13 @@ public class VisitorTest {
     @Test
     public void testSingleCommandType() {
         int counterActual = 10;
-        CommandTypeCounterVisitor visitor = new CommandTypeCounterVisitor();
+        CommandTypeCounterVisitor countingVisitor = new CommandTypeCounterVisitor();
 
         for (int i = 0; i < counterActual; i++)
-            new OperateToCommand((int) (Math.random() * 10), (int) (Math.random() * 10)).accept(visitor);
+            new OperateToCommand((int) (Math.random() * 10), (int) (Math.random() * 10)).accept(countingVisitor);
 
-        Assert.assertEquals(visitor.getOperateToCounter(), counterActual);
-        Assert.assertEquals(visitor.getSetPositionCounter(), 0);
+        Assert.assertEquals(countingVisitor.getOperateToCounter(), counterActual);
+        Assert.assertEquals(countingVisitor.getSetPositionCounter(), 0);
     }
 
     @Test

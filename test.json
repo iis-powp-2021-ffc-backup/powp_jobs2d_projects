@@ -1,75 +1,33 @@
 {
-  "name": "test IIS",
+  "name": "CompoundCommand",
   "driverCommands": [
     {
       "name": "SetPosition",
-      "posX": -20,
-      "posY": -50
+      "point": {
+        "x": -120,
+        "y": -120
+      }
     },
     {
       "name": "OperateTo",
-      "posX": -20,
-      "posY": -50
-    },
-    {
-      "name": "SetPosition",
-      "posX": -20,
-      "posY": -40
+      "point": {
+        "x": 120,
+        "y": -120
+      }
     },
     {
       "name": "OperateTo",
-      "posX": -20,
-      "posY": 50
-    },
-    {
-      "name": "SetPosition",
-      "posX": 0,
-      "posY": -50
+      "point": {
+        "x": 120,
+        "y": 120
+      }
     },
     {
       "name": "OperateTo",
-      "posX": 0,
-      "posY": -50
-    },
-    {
-      "name": "SetPosition",
-      "posX": 0,
-      "posY": -40
-    },
-    {
-      "name": "OperateTo",
-      "posX": 0,
-      "posY": 50
-    },
-    {
-      "name": "SetPosition",
-      "posX": 70,
-      "posY": -50
-    },
-    {
-      "name": "OperateTo",
-      "posX": 20,
-      "posY": -50
-    },
-    {
-      "name": "OperateTo",
-      "posX": 20,
-      "posY": 0
-    },
-    {
-      "name": "OperateTo",
-      "posX": 70,
-      "posY": 0
-    },
-    {
-      "name": "OperateTo",
-      "posX": 70,
-      "posY": 50
-    },
-    {
-      "name": "OperateTo",
-      "posX": 20,
-      "posY": 50
+      "point": {
+        "x": -160,
+        "y": -120
+      }
     }
   ]
 }

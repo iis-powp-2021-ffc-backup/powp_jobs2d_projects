@@ -6,8 +6,7 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class SelectLoadTriangleCommandOptionListener implements ActionListener {
 

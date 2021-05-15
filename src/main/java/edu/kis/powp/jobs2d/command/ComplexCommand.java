@@ -21,13 +21,13 @@ public class ComplexCommand implements ICompoundCommand {
     }
 
     @Override
-    public Iterator<DriverCommand> iterator() {
-        return commands.iterator();
+    public void accept(Visitor visitor) {
+        visitor.visitICompoundCommand(this);
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visitICompoundCommand(this);
+    public Iterator<DriverCommand> iterator() {
+        return commands.iterator();
     }
 
     @Override
