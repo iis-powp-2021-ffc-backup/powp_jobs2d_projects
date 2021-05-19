@@ -53,6 +53,8 @@ public class TestJobs2dApp {
         application.addTest("Figure Joe 1", selectTestFigureOptionListener);
         application.addTest("Figure Joe 2", selectTestFigure2OptionListener);
         application.addTest("Enable mouse controls", selectTestMouseListener);
+        application.addTest("Load test command",new SelectTestCommandOptionListener());
+        application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
     }
 
     /**
