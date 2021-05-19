@@ -8,7 +8,7 @@ import edu.kis.powp.jobs2d.drivers.transformation.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataModel {
+public class CommandDataModel {
     private String name;
 
     static class Command {
