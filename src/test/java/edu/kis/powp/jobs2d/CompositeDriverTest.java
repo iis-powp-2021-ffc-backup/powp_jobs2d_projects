@@ -1,6 +1,9 @@
 package edu.kis.powp.jobs2d;
 
+import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.drivers.CompositeDriver;
+import edu.kis.powp.jobs2d.drivers.UsageSubscriber;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +46,28 @@ public class CompositeDriverTest {
                 && Arrays.stream(array).anyMatch(x-> x.equals(testDriver)));
     }
 
+    @Test
+    void usageSubscriberSetToOperations(){
+        compositeDriver.setPosition(1, 2);
+        assertEquals(compositeDriver.getSetOperations(), 2);
+        assertEquals(compositeDriver.getAllOperations(), 2);
+    }
+
+    @Test
+    void usageSubscriberAllOperations(){
+        compositeDriver.operateTo(10, 10);
+        assertEquals(compositeDriver.getAllOperations(), 4);
+    }
+
+    @Test
+    void distanceTest(){
+        compositeDriver.operateTo(10, 10); // 14.1421
+        compositeDriver.operateTo(1, 1); // 26.8700
+        compositeDriver.operateTo(-3, 3);
+        System.out.println(compositeDriver.getDistance());
+
+    }
+
 
 
 
@@ -56,6 +81,7 @@ public class CompositeDriverTest {
         @Override
         public void operateTo(int i, int i1) {
             System.out.println("Sample driver operate to pos = " + i + ", " + i1);
+            setPosition(i, i1);
 
         }
     }
@@ -70,6 +96,8 @@ public class CompositeDriverTest {
         @Override
         public void operateTo(int i, int i1) {
             System.out.println("Test driver operate to pos = " + i + ", " + i1);
+            setPosition(i, i1);
+
         }
     }
 }

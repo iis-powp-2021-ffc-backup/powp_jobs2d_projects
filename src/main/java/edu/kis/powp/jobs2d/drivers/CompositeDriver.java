@@ -26,6 +26,7 @@ public class CompositeDriver implements Job2dDriver {
         drivers.forEach(e->e.setPosition(x, y));
         this.distance += calculateDistance(startX, x, startY, y);
         this.setOperations += drivers.size();
+        this.allOperations += drivers.size();
         this.usageSubscriber.setSetOperations(this.setOperations);
 
     }
@@ -34,10 +35,24 @@ public class CompositeDriver implements Job2dDriver {
     public void operateTo(int x, int y) {
         this.distance += calculateDistance(x, startX, y, startY);
         drivers.forEach(e->e.operateTo(x, y));
-        this.allOperations += drivers.size();
+        this.allOperations += drivers.size() * 2;
+        startX = x;
+        startY = y;
         this.usageSubscriber.setAllOperations(this.allOperations);
         this.usageSubscriber.setDistance(distance);
 
+    }
+
+    public int getAllOperations() {
+        return allOperations;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public int getSetOperations() {
+        return setOperations;
     }
 
     public void add(Job2dDriver driver){
@@ -53,8 +68,9 @@ public class CompositeDriver implements Job2dDriver {
     }
 
     private double calculateDistance(int x1, int x2, int y1, int y2){
-        return Math.ceil(Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
+        return Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
     }
+
     @Override
     public String toString(){
         return "Composite driver";
