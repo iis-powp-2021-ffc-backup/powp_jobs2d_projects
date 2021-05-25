@@ -36,6 +36,7 @@ public class CompositeDriver implements Job2dDriver {
         this.distance += calculateDistance(x, startX, y, startY);
         drivers.forEach(e->e.operateTo(x, y));
         this.allOperations += drivers.size() * 2;
+        this.setOperations += drivers.size();
         startX = x;
         startY = y;
         this.usageSubscriber.setAllOperations(this.allOperations);
