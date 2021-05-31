@@ -11,7 +11,6 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.visitor.Canvas;
 import edu.kis.powp.jobs2d.command.visitor.CanvasFactory;
-import edu.kis.powp.jobs2d.command.visitor.RectangleCanvas;
 import edu.kis.powp.jobs2d.drivers.DriverInfoUpdater;
 import edu.kis.powp.jobs2d.drivers.TransformationDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -26,13 +25,18 @@ import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.features.ApplicationManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
+import edu.kis.powp.jobs2d.features.DrawerFeature;
+import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.MacroFeature;
+import edu.kis.powp.jobs2d.observer.CheckboxAction;
+import edu.kis.powp.jobs2d.observer.MouseControlLoggerObserver;
+import edu.kis.powp.jobs2d.observer.MouseControlObserver;
 import edu.kis.powp.jobs2d.features.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -164,6 +168,23 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> UsageMonitorManager.printReport());
     }
 
+    private static void setupMouseCheckbox(Application application) {
+        JPanel panel = application.getFreePanel();
+
+        JCheckBox mouseCheckbox = new JCheckBox("Enable mouse");
+        mouseCheckbox.setToolTipText("Enable manual drawing with mouse.");
+        mouseCheckbox.setBounds(0,0,100,30);
+        mouseCheckbox.setCursor(new Cursor(12));
+
+        panel.add(mouseCheckbox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                GridBagConstraints.NORTHWEST, GridBagConstraints.NORTHWEST, new Insets(0, 0, 0, 0), 0, 0));
+
+        CheckboxAction enableMouseAction = new CheckboxAction("Enable mouse");
+        mouseCheckbox.setAction(enableMouseAction);
+        enableMouseAction.addObserver(new MouseControlObserver(DriverFeature.getDriverManager(), application.getFreePanel()));
+        enableMouseAction.addObserver(new MouseControlLoggerObserver());
+    }
+
     /**
      * Launch the application.
      */
@@ -181,6 +202,7 @@ public class TestJobs2dApp {
                 setupLogger(app);
                 setupWindows(app);
                 setupDriverMonitor(app);
+                setupMouseCheckbox(app);
                 setupFeatures(app);
 
                 app.setVisibility(true);
