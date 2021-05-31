@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.events;
+package edu.kis.powp.jobs2d.observer;
 
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.features.MouseControlsFeature;

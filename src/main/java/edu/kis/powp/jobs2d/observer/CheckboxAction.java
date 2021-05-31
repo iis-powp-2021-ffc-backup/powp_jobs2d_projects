@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.events;
+package edu.kis.powp.jobs2d.observer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

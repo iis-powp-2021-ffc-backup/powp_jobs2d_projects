@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.events;
+package edu.kis.powp.jobs2d.observer;
 
 public interface ICheckBoxObserver {
     void onEnabled();
