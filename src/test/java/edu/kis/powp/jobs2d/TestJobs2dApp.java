@@ -32,6 +32,7 @@ import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -164,6 +165,23 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> UsageMonitorManager.printReport());
     }
 
+    private static void setupMouseCheckbox(Application application) {
+        JPanel panel = application.getFreePanel();
+
+        JCheckBox mouseCheckbox = new JCheckBox("Enable mouse");
+        mouseCheckbox.setToolTipText("Enable manual drawing with mouse.");
+        mouseCheckbox.setBounds(0,0,100,30);
+        mouseCheckbox.setCursor(new Cursor(12));
+
+        panel.add(mouseCheckbox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                GridBagConstraints.NORTHWEST, GridBagConstraints.NORTHWEST, new Insets(0, 0, 0, 0), 0, 0));
+
+        AbstractAction actionHandler = new CheckboxAction("Enable mouse");
+        mouseCheckbox.setAction(actionHandler);
+
+        // TODO: Register observers
+    }
+
     /**
      * Launch the application.
      */
@@ -181,6 +199,7 @@ public class TestJobs2dApp {
                 setupLogger(app);
                 setupWindows(app);
                 setupDriverMonitor(app);
+                setupMouseCheckbox(app);
 
                 app.setVisibility(true);
             }
