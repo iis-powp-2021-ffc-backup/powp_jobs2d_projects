@@ -176,10 +176,10 @@ public class TestJobs2dApp {
         panel.add(mouseCheckbox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
                 GridBagConstraints.NORTHWEST, GridBagConstraints.NORTHWEST, new Insets(0, 0, 0, 0), 0, 0));
 
-        AbstractAction actionHandler = new CheckboxAction("Enable mouse");
+        CheckboxAction actionHandler = new CheckboxAction("Enable mouse");
         mouseCheckbox.setAction(actionHandler);
 
-        // TODO: Register observers
+        actionHandler.addObserver(new MouseControlObserver(DriverFeature.getDriverManager(), application.getFreePanel()));
     }
 
     /**
