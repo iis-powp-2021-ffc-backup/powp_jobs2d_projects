@@ -7,4 +7,5 @@ import edu.kis.powp.jobs2d.Job2dDriver;
  */
 public interface IDriverComposite extends Job2dDriver {
     void add(Job2dDriver item);
+    void remove(Job2dDriver item);
 }
