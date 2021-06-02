@@ -9,10 +9,12 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.CommandStatsUpdater;
 import edu.kis.powp.jobs2d.command.canvas.Canvas;
 import edu.kis.powp.jobs2d.command.visitor.CanvasFactory;
 
-import edu.kis.powp.jobs2d.command.visitor.RectangleCanvas;
+// import edu.kis.powp.jobs2d.command.visitor.RectangleCanvas;
 import edu.kis.powp.jobs2d.drivers.DriverInfoUpdater;
 
 import edu.kis.powp.jobs2d.drivers.TransformationDriver;
@@ -33,6 +35,7 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
+import edu.kis.powp.observer.Publisher;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -111,8 +114,12 @@ public class TestJobs2dApp {
         TransformationDriver rotateDriver4 = new TransformationDriver(new Scale(-1d, 1d), new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line"));
         DriverFeature.addDriver("Flip (horizontally)", rotateDriver4);
 
+
         DriverInfoUpdater subscriber = new DriverInfoUpdater();
         DriverFeature.getDriverManager().getPublisher().addSubscriber(subscriber);
+        DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
+        CommandStatsUpdater statsUpdater = new CommandStatsUpdater(manager);
+        manager.getChangePublisher().addSubscriber(statsUpdater);
 
         IDriverComposite compositeDriver = new DriverComposite();
         compositeDriver.add(driver);
