@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
@@ -64,6 +65,22 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(btnClearCommand, c);
 
+        JButton btnRunCommand = new JButton("Run command");
+        btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnRunCommand, c);
+
+        JButton btnResetCommand = new JButton("Reset observers");
+        btnResetCommand.addActionListener((ActionEvent e) -> this.resetObservers());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnResetCommand, c);
+
         JButton btnClearObservers = new JButton("Delete observers");
         btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
         c.fill = GridBagConstraints.BOTH;
@@ -85,6 +102,15 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     public void deleteObservers() {
         commandManager.getChangePublisher().clearObservers();
         this.updateObserverListField();
+    }
+
+    // TODO:implement this
+    public void runCommand() {
+    }
+
+    // TODO:implement this
+    public void resetObservers() {
+
     }
 
     private void updateObserverListField() {
