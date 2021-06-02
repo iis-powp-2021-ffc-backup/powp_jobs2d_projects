@@ -144,7 +144,7 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
     }
 
-    private static void setupFeatures(Application application) {
+    private static void setupFeaturesMenu(Application application) {
         SelectTestMouseListener selectTestMouseListener = new SelectTestMouseListener(
                 DriverFeature.getDriverManager(), application.getFreePanel());
 
@@ -181,7 +181,7 @@ public class TestJobs2dApp {
                 setupLogger(app);
                 setupWindows(app);
                 setupDriverMonitor(app);
-                setupFeatures(app);
+                setupFeaturesMenu(app);
 
                 app.setVisibility(true);
             }
