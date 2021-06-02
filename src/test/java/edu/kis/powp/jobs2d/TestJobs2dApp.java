@@ -30,13 +30,10 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
-import edu.kis.powp.jobs2d.observer.CheckboxAction;
+import edu.kis.powp.jobs2d.observer.ICheckBoxObserver;
 import edu.kis.powp.jobs2d.observer.MouseControlLoggerObserver;
 import edu.kis.powp.jobs2d.observer.MouseControlObserver;
 import edu.kis.powp.jobs2d.features.*;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -168,21 +165,10 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> UsageMonitorManager.printReport());
     }
 
-    private static void setupMouseCheckbox(Application application) {
-        JPanel panel = application.getFreePanel();
-
-        JCheckBox mouseCheckbox = new JCheckBox("Enable mouse");
-        mouseCheckbox.setToolTipText("Enable manual drawing with mouse.");
-        mouseCheckbox.setBounds(0,0,100,30);
-        mouseCheckbox.setCursor(new Cursor(12));
-
-        panel.add(mouseCheckbox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
-                GridBagConstraints.NORTHWEST, GridBagConstraints.NORTHWEST, new Insets(0, 0, 0, 0), 0, 0));
-
-        CheckboxAction enableMouseAction = new CheckboxAction("Enable mouse");
-        mouseCheckbox.setAction(enableMouseAction);
-        enableMouseAction.addObserver(new MouseControlObserver(DriverFeature.getDriverManager(), application.getFreePanel()));
-        enableMouseAction.addObserver(new MouseControlLoggerObserver());
+    private static void setupMouseControl(Application application) {
+        ICheckBoxObserver mouseControlObserver =  new MouseControlObserver(DriverFeature.getDriverManager(), application.getFreePanel());
+        MouseFeature.getEnableMouseAction().addObserver(mouseControlObserver);
+        MouseFeature.getEnableMouseAction().addObserver(new MouseControlLoggerObserver());
     }
 
     /**
@@ -193,7 +179,7 @@ public class TestJobs2dApp {
             public void run() {
                 Application app = new Application("Jobs 2D");
                 ApplicationManager manager = new ApplicationManager();
-                manager.addMany(new DriverFeature(app), new CommandsFeature(), new DrawerFeature(app), new MacroFeature());
+                manager.addMany(new DriverFeature(app), new CommandsFeature(), new DrawerFeature(app), new MacroFeature(), new MouseFeature(app));
                 manager.executeAll();
 
                 setupDrivers(app);
@@ -202,7 +188,7 @@ public class TestJobs2dApp {
                 setupLogger(app);
                 setupWindows(app);
                 setupDriverMonitor(app);
-                setupMouseCheckbox(app);
+                setupMouseControl(app);
                 setupFeatures(app);
 
                 app.setVisibility(true);
