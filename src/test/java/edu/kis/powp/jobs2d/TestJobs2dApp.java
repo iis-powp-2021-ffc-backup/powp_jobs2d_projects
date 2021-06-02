@@ -1,9 +1,5 @@
 package edu.kis.powp.jobs2d;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
@@ -11,22 +7,20 @@ import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.visitor.Canvas;
 import edu.kis.powp.jobs2d.command.visitor.CanvasFactory;
-import edu.kis.powp.jobs2d.command.visitor.RectangleCanvas;
 import edu.kis.powp.jobs2d.drivers.DriverInfoUpdater;
 import edu.kis.powp.jobs2d.drivers.TransformationDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.composite.DriverComposite;
+import edu.kis.powp.jobs2d.drivers.composite.IDriverComposite;
 import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.usageMonitor.MonitorDriverDecorator;
 import edu.kis.powp.jobs2d.drivers.usageMonitor.UsageMonitorManager;
 import edu.kis.powp.jobs2d.events.*;
-import edu.kis.powp.jobs2d.drivers.composite.DriverComposite;
-import edu.kis.powp.jobs2d.drivers.composite.IDriverComposite;
-import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
-import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.*;
+import edu.kis.powp.jobs2d.observer.CheckboxAction;
+import edu.kis.powp.jobs2d.observer.MouseControlLoggerObserver;
+import edu.kis.powp.jobs2d.observer.MouseControlObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,14 +100,19 @@ public class TestJobs2dApp {
         compositeDriver.add(driver);
         compositeDriver.add(loggerDriver);
 
-        DriverFeature.addDriver("Macro mode", MacroFeature.getDriver());
-        
         DriverFeature.addDriver("Composite Driver", compositeDriver);
 
         UsageMonitorManager.setDriver(driver);
         DriverFeature.addDriver("Monitored Driver", UsageMonitorManager.getDriver());
     }
 
+    private static void setupExtensions(Application application) {
+    	ExtensionFeature.addDriver("Macro", MacroFeature.getDriver());
+    	Job2dDriver loggerDriver = new LoggerDriver();
+        ExtensionFeature.addDriver("Logger", loggerDriver);
+    	
+    }
+    
     private static void setupWindows(Application application) {
 
 
@@ -149,19 +148,35 @@ public class TestJobs2dApp {
                 DriverFeature.getDriverManager(), application.getFreePanel());
 
         application.addComponentMenu(Feature.class, "Features");
-        application.addComponentMenuElement(Feature.class,"Load secret command", new SelectLoadSecretCommandOptionListener());
-        application.addComponentMenuElement(Feature.class,"Load triangle command", new SelectLoadTriangleCommandOptionListener());
-        application.addComponentMenuElement(Feature.class,"Rotate command", new SelectRotateCurrentCommandOptionListener(CommandsFeature.getDriverCommandManager()));
-        application.addComponentMenuElement(Feature.class,"Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
-        application.addComponentMenuElement(Feature.class,"Count command", new SelectCurrentCommandCounter(CommandsFeature.getDriverCommandManager()));
-        application.addComponentMenuElement(Feature.class,"Load Macro", new SelectLoadMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
-        application.addComponentMenuElement(Feature.class,"Clear Macro", new SelectClearMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
-        application.addComponentMenuElement(Feature.class, "Enable mouse controls", selectTestMouseListener);
+        application.addComponentMenuElement(Feature.class, "Load secret command", new SelectLoadSecretCommandOptionListener());
+        application.addComponentMenuElement(Feature.class, "Load triangle command", new SelectLoadTriangleCommandOptionListener());
+        application.addComponentMenuElement(Feature.class, "Rotate command", new SelectRotateCurrentCommandOptionListener(CommandsFeature.getDriverCommandManager()));
+        application.addComponentMenuElement(Feature.class, "Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+        application.addComponentMenuElement(Feature.class, "Count command", new SelectCurrentCommandCounter(CommandsFeature.getDriverCommandManager()));
+        application.addComponentMenuElement(Feature.class, "Load Macro", new SelectLoadMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
+        application.addComponentMenuElement(Feature.class, "Clear Macro", new SelectClearMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
     }
 
     private static void setupDriverMonitor(Application application) {
         application.addComponentMenu(MonitorDriverDecorator.class, "Driver Monitor", 5);
         application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> UsageMonitorManager.printReport());
+    }
+
+    private static void setupMouseCheckbox(Application application) {
+        JPanel panel = application.getFreePanel();
+
+        JCheckBox mouseCheckbox = new JCheckBox("Enable mouse");
+        mouseCheckbox.setToolTipText("Enable manual drawing with mouse.");
+        mouseCheckbox.setBounds(0, 0, 100, 30);
+        mouseCheckbox.setCursor(new Cursor(12));
+
+        panel.add(mouseCheckbox, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
+                GridBagConstraints.NORTHWEST, GridBagConstraints.NORTHWEST, new Insets(0, 0, 0, 0), 0, 0));
+
+        CheckboxAction enableMouseAction = new CheckboxAction("Enable mouse");
+        mouseCheckbox.setAction(enableMouseAction);
+        enableMouseAction.addObserver(new MouseControlObserver(DriverFeature.getDriverManager(), application.getFreePanel()));
+        enableMouseAction.addObserver(new MouseControlLoggerObserver());
     }
 
     /**
@@ -173,6 +188,7 @@ public class TestJobs2dApp {
                 Application app = new Application("Jobs 2D");
                 ApplicationManager manager = new ApplicationManager();
                 manager.addMany(new DriverFeature(app), new CommandsFeature(), new DrawerFeature(app), new MacroFeature());
+                manager.add(new ExtensionFeature(app, DriverFeature.getDriverManager()));
                 manager.executeAll();
 
                 setupDrivers(app);
@@ -182,6 +198,8 @@ public class TestJobs2dApp {
                 setupWindows(app);
                 setupDriverMonitor(app);
                 setupFeaturesMenu(app);
+                setupMouseCheckbox(app);
+                setupExtensions(app);
 
                 app.setVisibility(true);
             }
