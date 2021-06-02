@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JTextArea;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.observer.Subscriber;
 
@@ -23,6 +25,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
     private String observerListString;
     private JTextArea observerListField;
+    private List<Subscriber> observersBackup = null;
 
     /**
      *
@@ -100,17 +103,23 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     public void deleteObservers() {
+        this.observersBackup = new ArrayList<>(commandManager.getChangePublisher().getSubscribers());
         commandManager.getChangePublisher().clearObservers();
         this.updateObserverListField();
     }
 
-    // TODO:implement this
     public void runCommand() {
+        DriverCommand command = commandManager.getCurrentCommand();
+        command.execute(DriverFeature.getDriverManager().getCurrentDriver());
     }
 
-    // TODO:implement this
     public void resetObservers() {
-
+        if (observersBackup == null)
+            return;
+        for (Subscriber observer : this.observersBackup)
+            commandManager.getChangePublisher().addSubscriber(observer);
+        this.updateObserverListField();
+        this.observersBackup = null;
     }
 
     private void updateObserverListField() {
