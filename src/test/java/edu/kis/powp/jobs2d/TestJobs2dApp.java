@@ -147,7 +147,10 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(Logger.class, "OFF logging", (ActionEvent e) -> logger.setLevel(Level.OFF));
     }
 
-    private static void setupFeatures(Application application) {
+    private static void setupFeaturesMenu(Application application) {
+        SelectTestMouseListener selectTestMouseListener = new SelectTestMouseListener(
+                DriverFeature.getDriverManager(), application.getFreePanel());
+
         application.addComponentMenu(Feature.class, "Features");
         application.addComponentMenuElement(Feature.class, "Load secret command", new SelectLoadSecretCommandOptionListener());
         application.addComponentMenuElement(Feature.class, "Load triangle command", new SelectLoadTriangleCommandOptionListener());
@@ -187,8 +190,8 @@ public class TestJobs2dApp {
                 setupLogger(app);
                 setupWindows(app);
                 setupDriverMonitor(app);
-                setupMouseControl(app);
-                setupFeatures(app);
+                setupFeaturesMenu(app);
+                setupMouseCheckbox(app);
                 setupExtensions(app);
 
                 app.setVisibility(true);
