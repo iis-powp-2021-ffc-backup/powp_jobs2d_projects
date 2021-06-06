@@ -191,7 +191,7 @@ public class TestJobs2dApp {
                 setupWindows(app);
                 setupDriverMonitor(app);
                 setupFeaturesMenu(app);
-                setupMouseCheckbox(app);
+                setupMouseControl(app);
                 setupExtensions(app);
 
                 app.setVisibility(true);
