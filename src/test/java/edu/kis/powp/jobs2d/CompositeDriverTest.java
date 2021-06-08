@@ -42,6 +42,15 @@ public class CompositeDriverTest {
                 && Arrays.stream(array).anyMatch(x-> x.equals(testDriver)));
     }
 
+    @Test
+    void booleanHandlerTest(){
+        SampleDriver sampleDriver2 = new SampleDriver();
+        compositeDriver.checkBoxHandler(sampleDriver2);
+        assertEquals(3, compositeDriver.getSize());
+        compositeDriver.checkBoxHandler(sampleDriver2);
+        assertEquals(2, compositeDriver.getSize());
+
+    }
 
 
 

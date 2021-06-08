@@ -21,9 +21,9 @@ public class SelectMonitoringDeviceTestFigureOptionListener implements ActionLis
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Job2dDriver driver = driverManager.getCurrentDriver();
+		Job2dDriver driver = driverManager.getCompositeDriver();
 		driver.setPosition(0, 0);
-		if (driver instanceof UsageMonitoringDriver) {
+		if (driverManager.getAllDrivers() instanceof UsageMonitoringDriver) {
 			initOpDistance = ((UsageMonitoringDriver) driver).getOpDistance();
 			initHeadDistance = ((UsageMonitoringDriver) driver).getHeadDistance();
 		}

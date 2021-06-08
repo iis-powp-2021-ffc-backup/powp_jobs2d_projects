@@ -18,6 +18,6 @@ public class TriangleListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		comm.drawTriangle(-50,-50, 50, 50).execute(driverManager.getCurrentDriver());
+		comm.drawTriangle(-50,-50, 50, 50).execute(driverManager.getCompositeDriver());
 	}
 }
