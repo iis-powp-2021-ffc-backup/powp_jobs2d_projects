@@ -20,6 +20,6 @@ public class SelectRunCurrentCommandOptionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		CommandsFeature commandsFeature = FeatureManager.getFeature(CommandsFeature.class);
 		DriverCommand command = commandsFeature.getDriverCommandManager().getCurrentCommand();
-		command.execute(driverManager.getCurrentDriver());
+		command.execute(driverManager.getCompositeDriver());
 	}
 }

@@ -30,7 +30,7 @@ public class MouseClickAdapter implements MouseListener {
         x = e.getX() - jPanel.getWidth() / 2;
         y = e.getY() - jPanel.getHeight() / 2;
 
-        Job2dDriver job2dDriver = driverManager.getCurrentDriver();
+        Job2dDriver job2dDriver = driverManager.getCompositeDriver();
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             job2dDriver.operateTo(x, y);
