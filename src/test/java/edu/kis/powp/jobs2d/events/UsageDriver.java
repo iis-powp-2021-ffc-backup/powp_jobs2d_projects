@@ -30,7 +30,7 @@ public class UsageDriver implements Job2dDriver {
         this.distance += calculateDistance(x, startX, y, startY);
         this.allOperations += 1;
         startX = x;
-        startY =y;
+        startY = y;
         this.usageSubscriber.setSetOperations(this.setOperations);
         this.usageSubscriber.setAllOperations(this.allOperations);
         this.usageSubscriber.setDistance(this.distance);
