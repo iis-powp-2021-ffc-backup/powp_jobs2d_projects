@@ -121,7 +121,7 @@ public class TestJobs2dApp {
 
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 		HistoryCommandListChangeObserver historyObserver = new HistoryCommandListChangeObserver(
-				commandManagerWindow);
+				commandManagerController);
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(historyObserver);
 	}
 

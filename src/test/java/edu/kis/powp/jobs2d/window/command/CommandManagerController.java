@@ -60,11 +60,6 @@ public class CommandManagerController implements ICommandManagerController {
 	}
 
 	@Override
-	public ICompoundCommand getCurrentCommand() {
-		return (ICompoundCommand) commandManager.getCurrentCommand();
-	}
-
-	@Override
 	public void runCommand() {
 		new SelectRunCurrentCommandOptionListener(driverManager).actionPerformed(null);
 	}

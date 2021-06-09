@@ -194,10 +194,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		observerListField.setText(observerListString);
 	}
-
-	public ICommandManagerController getController() {
-		return controller;
-	}
+	
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();

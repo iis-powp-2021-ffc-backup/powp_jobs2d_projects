@@ -4,16 +4,16 @@ import edu.kis.powp.observer.Subscriber;
 
 public class HistoryCommandListChangeObserver implements Subscriber {
 
-	private CommandManagerWindow commandManagerWindow;
+	private ICommandManagerController commandManagerController;
 
-	public HistoryCommandListChangeObserver(CommandManagerWindow commandManagerWindow) {
+	public HistoryCommandListChangeObserver(ICommandManagerController commandManagerController) {
 		super();
-		this.commandManagerWindow = commandManagerWindow;
+		this.commandManagerController = commandManagerController;
 	}
 
 	@Override
 	public void update() {
-		commandManagerWindow.getController().addToHistory();
+		commandManagerController.addToHistory();
 	}
 
 }
