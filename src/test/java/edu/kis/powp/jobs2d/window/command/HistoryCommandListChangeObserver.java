@@ -13,7 +13,7 @@ public class HistoryCommandListChangeObserver implements Subscriber {
 
 	@Override
 	public void update() {
-		commandManagerWindow.addToHistory();
+		commandManagerWindow.getController().addToHistory();
 	}
 
 }
