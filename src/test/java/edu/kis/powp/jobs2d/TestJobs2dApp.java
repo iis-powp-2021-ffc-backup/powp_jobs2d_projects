@@ -104,7 +104,6 @@ public class TestJobs2dApp {
 						allDrivers.remove(usageMonitoringDriver);
 					else{
 						allDrivers.add(usageMonitoringDriver);
-//						usageMonitoringDriver.setLineDriverAdapter((LineDriverAdapter) driverFeature.getDriverManager().getCurrentDriver());
 					}
 				}
 				, false);
@@ -119,11 +118,7 @@ public class TestJobs2dApp {
 		DrawerFeature drawerFeature = FeatureManager.getFeature(DrawerFeature.class);
 		application.addTest("Monitoring device Test", new SelectMonitoringDeviceTestFigureOptionListener(driverFeature.getDriverManager()));
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
-		/*
-		LineDriverAdapter lineDriverAdapter = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver( lineDriverAdapter);
-		driverFeature.addDriver("Usage monitoring Simulator", usageMonitoringDriver);
-		 */
+
 	}
 
 	private static void setupWindows(Application application) {

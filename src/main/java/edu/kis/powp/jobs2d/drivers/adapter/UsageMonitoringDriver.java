@@ -15,10 +15,6 @@ public class UsageMonitoringDriver  implements Job2dDriver {
 	private int opDistance = 0;
 
 
-//	public UsageMonitoringDriver(DrawPanelController drawController, ILine line, String name) {
-//		super(drawController, line, name);
-//	}
-
 	public UsageMonitoringDriver(LineDriverAdapter lineDriverAdapter) {
 		this.lineDriverAdapter = lineDriverAdapter;
 	}
@@ -26,14 +22,12 @@ public class UsageMonitoringDriver  implements Job2dDriver {
 	public void setPosition(int x, int y) {
 		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
 		LOGGER.info("Head distance: " + headDistance + " units" + " " + "Op.distance: " + opDistance + " units");
-//		lineDriverAdapter.setPosition(x, y);
 	}
 
 
 	public void operateTo(int x, int y) {
 		opDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
 		headDistance += distanceBetweenPoints(lineDriverAdapter.getStartX(), lineDriverAdapter.getStartY(), x, y);
-//		lineDriverAdapter.operateTo(x, y);
 		LOGGER.info("Op.distance: " + opDistance + " units");
 	}
 
