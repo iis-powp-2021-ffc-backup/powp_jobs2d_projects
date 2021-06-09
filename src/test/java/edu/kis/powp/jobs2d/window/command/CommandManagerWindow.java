@@ -30,7 +30,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea listTitle;
 	private JList<HistoryCommandObject> commandList;
 
-	public CommandManagerWindow(ICommandManagerController controller, DriverCommandManager commandManager) {
+	public CommandManagerWindow(ICommandManagerController controller) {
 		this.controller = controller;
 		this.commandList = new JList<>(HistoryCommandList.getHistoryCommandList());
 		this.setTitle("Command Manager");
@@ -114,7 +114,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		JScrollPane scroll = new JScrollPane(commandList);
 		scroll.setMinimumSize (new Dimension (100,200));
 		content.add(scroll, c);
-		commandList.addListSelectionListener(new SelectHistoryCommandOptionListener(commandManager));
+		commandList.addListSelectionListener(new SelectHistoryCommandOptionListener(controller));
 	}
 
 
@@ -194,7 +194,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 		observerListField.setText(observerListString);
 	}
-	
+
 	@Override
 	public void HideIfVisibleAndShowIfHidden() {
 		updateObserverListField();

@@ -69,4 +69,9 @@ public class CommandManagerController implements ICommandManagerController {
 		HistoryCommandList.addCommandToList(commandManager.getCurrentCommandString(), (ICompoundCommand)  commandManager.getCurrentCommand());
 	}
 
+	@Override
+	public void setCurrentCommand(ICompoundCommand comm) {
+		commandManager.setCurrentCommand(comm);
+	}
+
 }
