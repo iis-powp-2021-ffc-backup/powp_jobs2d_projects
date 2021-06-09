@@ -15,27 +15,26 @@ public class UsageDriver implements Job2dDriver {
         this.usageSubscriber = usageSubscriber;
     }
     @Override
-    public void setPosition(int i, int i1) {
+    public void setPosition(int x, int y) {
         this.setOperations += 1;
         this.allOperations += 1;
-        startX = i;
-        startY = i1;
+        startX = x;
+        startY = y;
         this.usageSubscriber.setSetOperations(this.setOperations);
         this.usageSubscriber.setAllOperations(this.allOperations);
         this.usageSubscriber.setDistance(this.distance);
     }
 
     @Override
-    public void operateTo(int i, int i1) {
-        this.distance += calculateDistance(i, startX, i1, startY);
+    public void operateTo(int x, int y) {
+        this.distance += calculateDistance(x, startX, y, startY);
         this.allOperations += 1;
-        startX = i;
-        startY = i1;
+        startX = x;
+        startY =y;
         this.usageSubscriber.setSetOperations(this.setOperations);
         this.usageSubscriber.setAllOperations(this.allOperations);
         this.usageSubscriber.setDistance(this.distance);
     }
-
 
     private double calculateDistance(int x1, int x2, int y1, int y2){
         return Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));

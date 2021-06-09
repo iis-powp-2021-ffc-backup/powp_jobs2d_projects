@@ -79,14 +79,14 @@ public class TestJobs2dApp {
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DrawPanelController drawerController = drawerFeature.getDrawerController();
-		LineDriverAdapter driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		driverFeature.addDriver("Line Simulator", driver);
 		driverFeature.getDriverManager().setCurrentDriver(driver);
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		driverFeature.addDriver("Special line Simulator", driver);
 		CompositeDriver compositeDriver = new CompositeDriver();
-		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver(driver);
+		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver((LineDriverAdapter) driver);
 		java.util.List<Job2dDriver> allDrivers = driverFeature.getDriverManager().getAllDrivers();
 		application.addComponentMenu(Job2dDriver.class, "Drivers utils");
 		application.addComponentMenuElementWithCheckBox(Job2dDriver.class, "LoggerDriver", (ActionEvent e) ->
