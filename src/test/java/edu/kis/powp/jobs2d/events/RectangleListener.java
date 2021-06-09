@@ -19,6 +19,6 @@ public class RectangleListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		comm.drawRectangle(0,0, 50, 25).execute(driverManager.getCurrentDriver());
+		comm.drawRectangle(0,0, 50, 25).execute(driverManager.getCompositeDriver());
 	}
 }

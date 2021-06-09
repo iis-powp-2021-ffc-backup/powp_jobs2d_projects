@@ -36,6 +36,7 @@ public class UsageMonitoringDriver  implements Job2dDriver {
 		startY = y;
 	}
 
+
 	public int getHeadDistance() {
 		return headDistance;
 	}

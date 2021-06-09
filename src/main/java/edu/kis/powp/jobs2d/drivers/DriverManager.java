@@ -15,7 +15,6 @@ public class DriverManager {
 	private Job2dDriver currentDriver;
 	private CompositeDriver compositeDriver = new CompositeDriver();
 	private static Publisher publisher = new Publisher();
-
 	public Publisher getPublisher(){
 		return publisher;
 	}

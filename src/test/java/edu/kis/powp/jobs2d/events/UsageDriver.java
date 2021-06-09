@@ -36,7 +36,6 @@ public class UsageDriver implements Job2dDriver {
         this.usageSubscriber.setDistance(this.distance);
     }
 
-
     private double calculateDistance(int x1, int x2, int y1, int y2){
         return Math.sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
     }
