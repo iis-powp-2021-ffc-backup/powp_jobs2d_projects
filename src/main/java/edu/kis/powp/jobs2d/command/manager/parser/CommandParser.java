@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class JsonCommandParser implements IDriverCommandParser {
+public class CommandParser implements IDriverCommandParser {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
-    public CommandDataModel parseFromFile(String data) {
+    public CommandDataModel parseFromString(String data) {
         return gson.fromJson(data, CommandDataModel.class);
     }
 
     @Override
-    public String parseToFile(DriverCommand driverCommand) throws IOException {
+    public String parseToString(DriverCommand driverCommand) {
         if (driverCommand instanceof OperateToCommand || driverCommand instanceof SetPositionCommand) {
             return gson.toJson(driverCommand);
         }

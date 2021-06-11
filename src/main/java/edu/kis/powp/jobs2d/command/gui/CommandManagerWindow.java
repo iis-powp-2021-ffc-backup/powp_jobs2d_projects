@@ -4,7 +4,8 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.command.manager.parser.CommandDataModel;
-import edu.kis.powp.jobs2d.command.manager.parser.JsonCommandParser;
+import edu.kis.powp.jobs2d.command.manager.parser.CommandParser;
+import edu.kis.powp.jobs2d.command.manager.parser.IDriverCommandParser;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private final JTextArea observerListField;
     private final JTextArea InputCommandsTextArea;
 
-    private final JsonCommandParser jsonCommandParser = new JsonCommandParser();
+    private final IDriverCommandParser commandParser = new CommandParser();
 
     /**
      *
@@ -131,7 +132,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private void loadCommandsFromJSON(String path) {
         try {
             String jsonInput = new String(Files.readAllBytes(Paths.get(path)));
-            CommandDataModel inputCommandDataModel = jsonCommandParser.parseFromFile(jsonInput);
+            CommandDataModel inputCommandDataModel = commandParser.parseFromString(jsonInput);
             commandManager.setCurrentCommand(
                     inputCommandDataModel.getDriverCommand(),
                     inputCommandDataModel.getDriverCommandName()
@@ -146,7 +147,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         try {
 
             DriverCommand driverCommand = commandManager.getCurrentCommand();
-            String json = jsonCommandParser.parseToFile(driverCommand);
+            String json = commandParser.parseToString(driverCommand);
             BufferedWriter writer = new BufferedWriter(new FileWriter(path));
             writer.write(json);
 

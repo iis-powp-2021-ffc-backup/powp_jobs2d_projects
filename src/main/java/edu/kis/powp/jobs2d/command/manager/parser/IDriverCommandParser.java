@@ -5,7 +5,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import java.io.IOException;
 
 public interface IDriverCommandParser {
-    CommandDataModel parseFromFile(String data);
+    CommandDataModel parseFromString(String data);
 
-    String parseToFile(DriverCommand driverCommand) throws IOException;
+    String parseToString(DriverCommand driverCommand);
 }
