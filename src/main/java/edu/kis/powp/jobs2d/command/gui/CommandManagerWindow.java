@@ -1,36 +1,28 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.observer.Subscriber;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-
-import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.features.DriverFeature;
-import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.observer.Subscriber;
-
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
-    private DriverCommandManager commandManager;
-
-    private JTextArea currentCommandField;
-
-    private String observerListString;
-    private JTextArea observerListField;
-    private List<Subscriber> observersBackup = null;
 
     /**
      *
      */
     private static final long serialVersionUID = 9204679248304669948L;
+    private final DriverCommandManager commandManager;
+    private final JTextArea currentCommandField;
+    private String observerListString;
+    private final JTextArea observerListField;
+    private List<Subscriber> observersBackup = null;
 
     public CommandManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Manager");
@@ -137,11 +129,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     @Override
     public void HideIfVisibleAndShowIfHidden() {
         updateObserverListField();
-        if (this.isVisible()) {
-            this.setVisible(false);
-        } else {
-            this.setVisible(true);
-        }
+        this.setVisible(!this.isVisible());
     }
 
 }
