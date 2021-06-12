@@ -1,4 +1,4 @@
-package edu.kis.powp.jobs2d.command.visitor;
+package edu.kis.powp.jobs2d.command.canvas;
 
 import edu.kis.powp.jobs2d.drivers.transformation.Point;
 
