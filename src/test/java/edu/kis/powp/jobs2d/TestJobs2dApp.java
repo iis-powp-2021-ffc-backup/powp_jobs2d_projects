@@ -15,7 +15,7 @@ import edu.kis.powp.jobs2d.drivers.composite.IDriverComposite;
 import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.usageMonitor.MonitorDriverDecorator;
-import edu.kis.powp.jobs2d.drivers.usageMonitor.UsageMonitorManager;
+import edu.kis.powp.jobs2d.drivers.usageMonitor.UsageMonitorUpdater;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -108,16 +108,12 @@ public class TestJobs2dApp {
         compositeDriver.add(loggerDriver);
 
         DriverFeature.addDriver("Composite Driver", compositeDriver);
-
-        UsageMonitorManager.setDriver(driver);
-        DriverFeature.addDriver("Monitored Driver", UsageMonitorManager.getDriver());
     }
 
     private static void setupExtensions(Application application) {
     	ExtensionFeature.addDriver("Macro", MacroFeature.getDriver());
     	Job2dDriver loggerDriver = new LoggerDriver();
         ExtensionFeature.addDriver("Logger", loggerDriver);
-    	
     }
     
     private static void setupWindows(Application application) {
@@ -163,7 +159,7 @@ public class TestJobs2dApp {
 
     private static void setupDriverMonitor(Application application) {
         application.addComponentMenu(MonitorDriverDecorator.class, "Driver Monitor", 5);
-        application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> UsageMonitorManager.printReport());
+        application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> MonitorFeature.printReport());
     }
 
     private static void setupMouseControl(Application application) {
@@ -180,7 +176,7 @@ public class TestJobs2dApp {
             public void run() {
                 Application app = new Application("Jobs 2D");
                 ApplicationManager manager = new ApplicationManager();
-                manager.addMany(new DriverFeature(app), new CommandsFeature(), new DrawerFeature(app), new MacroFeature(), new MouseFeature(app));
+                manager.addMany(new DriverFeature(app), new CommandsFeature(), new DrawerFeature(app), new MacroFeature(), new MouseFeature(app), new MonitorFeature());
                 manager.add(new ExtensionFeature(app, DriverFeature.getDriverManager()));
                 manager.executeAll();
 
@@ -191,7 +187,7 @@ public class TestJobs2dApp {
                 setupWindows(app);
                 setupDriverMonitor(app);
                 setupFeaturesMenu(app);
-                setupMouseCheckbox(app);
+                setupMouseControl(app);
                 setupExtensions(app);
 
                 app.setVisibility(true);
