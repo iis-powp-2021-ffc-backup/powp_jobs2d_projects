@@ -1,32 +1,28 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.observer.Subscriber;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommandManagerWindow extends JFrame implements WindowComponent {
-
-    private DriverCommandManager commandManager;
-
-    private JTextArea currentCommandField;
-
-    private String observerListString;
-    private JTextArea observerListField;
 
     /**
      *
      */
     private static final long serialVersionUID = 9204679248304669948L;
+    private final DriverCommandManager commandManager;
+    private final JTextArea currentCommandField;
+    private String observerListString;
+    private final JTextArea observerListField;
+    private List<Subscriber> observersBackup = null;
 
     public CommandManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Manager");
@@ -64,6 +60,22 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(btnClearCommand, c);
 
+        JButton btnRunCommand = new JButton("Run command");
+        btnRunCommand.addActionListener((ActionEvent e) -> this.runCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnRunCommand, c);
+
+        JButton btnResetCommand = new JButton("Reset observers");
+        btnResetCommand.addActionListener((ActionEvent e) -> this.resetObservers());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btnResetCommand, c);
+
         JButton btnClearObservers = new JButton("Delete observers");
         btnClearObservers.addActionListener((ActionEvent e) -> this.deleteObservers());
         c.fill = GridBagConstraints.BOTH;
@@ -83,8 +95,23 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     public void deleteObservers() {
+        this.observersBackup = new ArrayList<>(commandManager.getChangePublisher().getSubscribers());
         commandManager.getChangePublisher().clearObservers();
         this.updateObserverListField();
+    }
+
+    public void runCommand() {
+        DriverCommand command = commandManager.getCurrentCommand();
+        command.execute(DriverFeature.getDriverManager().getCurrentDriver());
+    }
+
+    public void resetObservers() {
+        if (observersBackup == null)
+            return;
+        for (Subscriber observer : this.observersBackup)
+            commandManager.getChangePublisher().addSubscriber(observer);
+        this.updateObserverListField();
+        this.observersBackup = null;
     }
 
     private void updateObserverListField() {
@@ -102,11 +129,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     @Override
     public void HideIfVisibleAndShowIfHidden() {
         updateObserverListField();
-        if (this.isVisible()) {
-            this.setVisible(false);
-        } else {
-            this.setVisible(true);
-        }
+        this.setVisible(!this.isVisible());
     }
 
 }
