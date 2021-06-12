@@ -102,12 +102,6 @@ public class TestJobs2dApp {
 
         DriverInfoUpdater subscriber = new DriverInfoUpdater();
         DriverFeature.getDriverManager().getPublisher().addSubscriber(subscriber);
-
-        IDriverComposite compositeDriver = new DriverComposite();
-        compositeDriver.add(driver);
-        compositeDriver.add(loggerDriver);
-
-        DriverFeature.addDriver("Composite Driver", compositeDriver);
     }
 
     private static void setupExtensions(Application application) {
@@ -155,11 +149,7 @@ public class TestJobs2dApp {
         application.addComponentMenuElement(Feature.class, "Count command", new SelectCurrentCommandCounter(CommandsFeature.getDriverCommandManager()));
         application.addComponentMenuElement(Feature.class, "Load Macro", new SelectLoadMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
         application.addComponentMenuElement(Feature.class, "Clear Macro", new SelectClearMacroOptionListener(MacroFeature.getDriver(), CommandsFeature.getDriverCommandManager()));
-    }
-
-    private static void setupDriverMonitor(Application application) {
-        application.addComponentMenu(MonitorDriverDecorator.class, "Driver Monitor", 5);
-        application.addComponentMenuElement(MonitorDriverDecorator.class, "Print report", (ActionEvent e) -> MonitorFeature.printReport());
+        application.addComponentMenuElement(Feature.class, "Print usage report", (ActionEvent e) -> MonitorFeature.printReport());
     }
 
     private static void setupMouseControl(Application application) {
@@ -185,7 +175,6 @@ public class TestJobs2dApp {
                 setupCommandTests(app);
                 setupLogger(app);
                 setupWindows(app);
-                setupDriverMonitor(app);
                 setupFeaturesMenu(app);
                 setupMouseControl(app);
                 setupExtensions(app);
