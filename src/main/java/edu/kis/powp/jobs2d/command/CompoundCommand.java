@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CompoundCommand implements ICompoundCommand {
-    private String name;
+    private String name = "CompoundCommand";
     private List<DriverCommand> driverCommands;
 
     public CompoundCommand(List<DriverCommand> driverCommands, String name) {

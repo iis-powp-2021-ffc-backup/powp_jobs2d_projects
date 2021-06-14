@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.command.CompoundCommand;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.*;
 
 public class MacroDriver implements Job2dDriver {
 	private List<DriverCommand> commands = new ArrayList<>();
@@ -23,8 +20,8 @@ public class MacroDriver implements Job2dDriver {
 		commands.add(new OperateToCommand(x, y));		
 	}
 	
-	public CompoundCommand getMacro() {
-		return new CompoundCommand(commands);
+	public ImmutableCompoundCommand getMacro() {
+		return new ImmutableCompoundCommand(commands);
 	}
 	
 	public void clearMacro() {
