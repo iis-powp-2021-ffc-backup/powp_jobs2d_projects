@@ -9,11 +9,19 @@ import edu.kis.powp.jobs2d.drivers.transformation.Point;
  */
 public class SetPositionCommand implements DriverCommand {
 
+
+    private String name = "SetPosition";
     private final Point point;
+
 
     public SetPositionCommand(int posX, int posY) {
         super();
         point = new Point(posX, posY);
+    }
+
+    public SetPositionCommand(Point point) {
+        super();
+        this.point=point;
     }
 
     public Point getPoint() {
