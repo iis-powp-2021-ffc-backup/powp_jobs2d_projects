@@ -10,6 +10,7 @@ import edu.kis.powp.jobs2d.command.CommandStatsUpdater;
 import edu.kis.powp.jobs2d.command.canvas.Canvas;
 import edu.kis.powp.jobs2d.command.visitor.CanvasFactory;
 
+import edu.kis.powp.jobs2d.drivers.DriverInfoUpdater;
 import edu.kis.powp.jobs2d.drivers.TransformationDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.composite.DriverComposite;
