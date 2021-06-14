@@ -156,14 +156,14 @@ public class TestJobs2dApp {
 
 		ICommandManagerController commandManagerController = new CommandManagerController(driverFeature.getDriverManager(),
 				commandsFeature.getDriverCommandManager(), new JsonCommandImporter());
-		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController, commandsFeature.getDriverCommandManager());
+		CommandManagerWindow commandManagerWindow = new CommandManagerWindow(commandManagerController);
 		application.addWindowComponent("Command Manager", commandManagerWindow);
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManagerWindow);
 
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
 		HistoryCommandListChangeObserver historyObserver = new HistoryCommandListChangeObserver(
-				commandManagerWindow);
+				commandManagerController);
 		commandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(historyObserver);
 	}
 

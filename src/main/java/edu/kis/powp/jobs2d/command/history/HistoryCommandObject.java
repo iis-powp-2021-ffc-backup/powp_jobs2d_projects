@@ -13,7 +13,7 @@ public class HistoryCommandObject {
         this.comm = command;
     }
 
-    public DriverCommand getComm() {
+    public ICompoundCommand getComm() {
         return comm;
     }
 

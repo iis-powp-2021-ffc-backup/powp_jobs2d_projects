@@ -2,7 +2,6 @@ package edu.kis.powp.jobs2d.window.command;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.FileOpertor;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.jobs2d.command.history.HistoryCommandList;
 import edu.kis.powp.jobs2d.command.history.HistoryCommandObject;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -31,7 +30,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea listTitle;
 	private JList<HistoryCommandObject> commandList;
 
-	public CommandManagerWindow(ICommandManagerController controller, DriverCommandManager commandManager) {
+	public CommandManagerWindow(ICommandManagerController controller) {
 		this.controller = controller;
 		this.commandList = new JList<>(HistoryCommandList.getHistoryCommandList());
 		this.setTitle("Command Manager");
@@ -115,12 +114,9 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		JScrollPane scroll = new JScrollPane(commandList);
 		scroll.setMinimumSize (new Dimension (100,200));
 		content.add(scroll, c);
-		commandList.addListSelectionListener(new SelectHistoryCommandOptionListener(commandManager));
+		commandList.addListSelectionListener(new SelectHistoryCommandOptionListener(controller));
 	}
 
-	public void addToHistory() {
-		HistoryCommandList.addCommandToList(controller.getCurrentCommandString(), controller.getCurrentCommand());
-	}
 
 	private void clearCommand() {
 		controller.clearCommand();
