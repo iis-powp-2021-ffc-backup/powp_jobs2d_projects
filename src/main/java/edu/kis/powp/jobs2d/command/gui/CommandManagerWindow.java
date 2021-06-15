@@ -1,36 +1,31 @@
 package edu.kis.powp.jobs2d.command.gui;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.command.controller.ICommandManagerController;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 9204679248304669948L;
-    private final DriverCommandManager commandManager;
+    private final ICommandManagerController commandManagerController;
     private final JTextArea currentCommandField;
-    private String observerListString;
     private final JTextArea observerListField;
-    private List<Subscriber> observersBackup = null;
+    private final JTextArea InputCommandsTextArea;
+    private static final long serialVersionUID = 9204679248304669948L;
 
-    public CommandManagerWindow(DriverCommandManager commandManager) {
+    public CommandManagerWindow(ICommandManagerController commandManagerController) {
         this.setTitle("Command Manager");
         this.setSize(400, 400);
         Container content = this.getContentPane();
         content.setLayout(new GridBagLayout());
 
-        this.commandManager = commandManager;
+        this.commandManagerController = commandManagerController;
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -51,6 +46,23 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(currentCommandField, c);
         updateCurrentCommandField();
+
+        InputCommandsTextArea = new JTextArea("");
+        InputCommandsTextArea.setEditable(true);
+        InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsTextArea.setLineWrap(true);
+
+        JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
+        content.add(InputCommandsField, c);
+
+        JButton jsonLoadCommands = new JButton("Load commands");
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonLoadCommands, c);
+
+        JButton jsonSaveCommands = new JButton("Save commands");
+        jsonSaveCommands.addActionListener((ActionEvent e) -> this.saveCommandsToJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonSaveCommands, c);
+
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -86,37 +98,31 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     private void clearCommand() {
-        commandManager.clearCurrentCommand();
+        commandManagerController.clearCommand();
         updateCurrentCommandField();
     }
 
     public void updateCurrentCommandField() {
-        currentCommandField.setText(commandManager.getCurrentCommandString());
+        currentCommandField.setText(commandManagerController.getCurrentCommandString());
     }
 
     public void deleteObservers() {
-        this.observersBackup = new ArrayList<>(commandManager.getChangePublisher().getSubscribers());
-        commandManager.getChangePublisher().clearObservers();
-        this.updateObserverListField();
+        commandManagerController.deleteObservers();
+        updateObserverListField();
     }
 
     public void runCommand() {
-        DriverCommand command = commandManager.getCurrentCommand();
-        command.execute(DriverFeature.getDriverManager().getCurrentDriver());
+        commandManagerController.runCommand();
     }
 
     public void resetObservers() {
-        if (observersBackup == null)
-            return;
-        for (Subscriber observer : this.observersBackup)
-            commandManager.getChangePublisher().addSubscriber(observer);
-        this.updateObserverListField();
-        this.observersBackup = null;
+        commandManagerController.resetObservers();
+        updateObserverListField();
     }
 
     private void updateObserverListField() {
-        observerListString = "";
-        List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
+        String observerListString = "";
+        List<Subscriber> commandChangeSubscribers = commandManagerController.getChangePublisher().getSubscribers();
         for (Subscriber observer : commandChangeSubscribers) {
             observerListString += observer.toString() + System.lineSeparator();
         }
@@ -132,4 +138,19 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         this.setVisible(!this.isVisible());
     }
 
+    private void loadCommandsFromJSON(String path) {
+        try {
+            commandManagerController.loadCommands(path);
+        } catch (IOException e) {
+            currentCommandField.setText("Couldn't load commands");
+        }
+    }
+
+    private void saveCommandsToJSON(String path) {
+        try {
+            commandManagerController.saveCommands(path);
+        } catch (IOException e) {
+            currentCommandField.setText("Could not save commands");
+        }
+    }
 }

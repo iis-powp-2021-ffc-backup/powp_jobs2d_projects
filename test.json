@@ -1,0 +1,33 @@
+{
+  "name": "CompoundCommand",
+  "driverCommands": [
+    {
+      "name": "SetPosition",
+      "point": {
+        "x": -120,
+        "y": -120
+      }
+    },
+    {
+      "name": "OperateTo",
+      "point": {
+        "x": 120,
+        "y": -120
+      }
+    },
+    {
+      "name": "OperateTo",
+      "point": {
+        "x": 120,
+        "y": 120
+      }
+    },
+    {
+      "name": "OperateTo",
+      "point": {
+        "x": -120,
+        "y": -120
+      }
+    }
+  ]
+}
