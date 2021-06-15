@@ -3,6 +3,7 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.controller.CommandManagerController;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -131,7 +132,8 @@ public class TestJobs2dApp {
     }
     
     private static void setupWindows(Application application) {
-        CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
+        CommandManagerController commandManagerController = new CommandManagerController(CommandsFeature.getDriverCommandManager());
+        CommandManagerWindow commandManager = new CommandManagerWindow(commandManagerController);
         application.addWindowComponent("Command Manager", commandManager);
 
         CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
@@ -208,5 +210,4 @@ public class TestJobs2dApp {
             }
         });
     }
-
 }
