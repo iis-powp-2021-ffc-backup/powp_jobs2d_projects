@@ -4,6 +4,9 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.command.manager.parser.CommandDataModel;
+import edu.kis.powp.jobs2d.command.manager.parser.CommandParser;
+import edu.kis.powp.jobs2d.command.manager.parser.IDriverCommandParser;
 import edu.kis.powp.observer.Subscriber;
 
 import javax.swing.*;
@@ -12,7 +15,27 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+
 public class CommandManagerWindow extends JFrame implements WindowComponent {
+
+    private final DriverCommandManager commandManager;
+
+    private final JTextArea currentCommandField;
+
+    private String observerListString;
+    private final JTextArea observerListField;
+    private final JTextArea InputCommandsTextArea;
+
+    private final IDriverCommandParser commandParser = new CommandParser();
 
     /**
      *
@@ -51,6 +74,23 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(currentCommandField, c);
         updateCurrentCommandField();
+
+        InputCommandsTextArea = new JTextArea("");
+        InputCommandsTextArea.setEditable(true);
+        InputCommandsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        InputCommandsTextArea.setLineWrap(true);
+
+        JScrollPane InputCommandsField = new JScrollPane(InputCommandsTextArea);
+        content.add(InputCommandsField, c);
+
+        JButton jsonLoadCommands = new JButton("Load commands");
+        jsonLoadCommands.addActionListener((ActionEvent e) -> this.loadCommandsFromJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonLoadCommands, c);
+
+        JButton jsonSaveCommands = new JButton("Save commands");
+        jsonSaveCommands.addActionListener((ActionEvent e) -> this.saveCommandsToJSON(InputCommandsTextArea.getText().trim()));
+        content.add(jsonSaveCommands, c);
+
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -132,4 +172,33 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         this.setVisible(!this.isVisible());
     }
 
+    private void loadCommandsFromJSON(String path) {
+        try {
+            String jsonInput = new String(Files.readAllBytes(Paths.get(path)));
+            CommandDataModel inputCommandDataModel = commandParser.parseFromString(jsonInput);
+            commandManager.setCurrentCommand(
+                    inputCommandDataModel.getDriverCommand(),
+                    inputCommandDataModel.getDriverCommandName()
+            );
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        this.setVisible(!this.isVisible());
+    }
+
+    private void saveCommandsToJSON(String path) {
+        try {
+
+            DriverCommand driverCommand = commandManager.getCurrentCommand();
+            String json = commandParser.parseToString(driverCommand);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+            writer.write(json);
+
+            writer.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 }

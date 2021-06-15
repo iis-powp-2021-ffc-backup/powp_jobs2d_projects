@@ -9,13 +9,20 @@ import edu.kis.powp.jobs2d.drivers.transformation.Point;
  */
 public class OperateToCommand implements DriverCommand {
 
+
+    private String name = "OperateTo";
     private final Point point;
+
 
     public OperateToCommand(int posX, int posY) {
         super();
         point = new Point(posX, posY);
     }
 
+    public OperateToCommand(Point point) {
+        super();
+        this.point=point;
+    }
     public Point getPoint() {
         return point;
     }
@@ -25,10 +32,12 @@ public class OperateToCommand implements DriverCommand {
         driver.operateTo(point.x, point.y);
     }
 
+
     @Override
     public DriverCommand clone() {
         return new OperateToCommand(point.x, point.y);
     }
+
 
     @Override
     public void accept(Visitor visitor) {

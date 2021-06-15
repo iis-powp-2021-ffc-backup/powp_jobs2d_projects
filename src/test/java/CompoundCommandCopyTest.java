@@ -1,7 +1,4 @@
-import edu.kis.powp.jobs2d.command.CompoundCommand;
-import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.OperateToCommand;
-import edu.kis.powp.jobs2d.command.SetPositionCommand;
+import edu.kis.powp.jobs2d.command.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ public class CompoundCommandCopyTest {
         ncl1.add(c2);
         ncl1.add(c3);
 
-        CompoundCommand ncc1 = new CompoundCommand(ncl1);
+        ImmutableCompoundCommand ncc1 = new ImmutableCompoundCommand(ncl1);
 
         DriverCommand c4 = new SetPositionCommand(0, 0);
         OperateToCommand c5 = new OperateToCommand(20, 50);
@@ -31,14 +28,14 @@ public class CompoundCommandCopyTest {
         ncl2.add(c4);
         ncl2.add(c5);
 
-        CompoundCommand originalCompoundCommand = new CompoundCommand(ncl2);
+        ImmutableCompoundCommand originalCompoundCommand = new ImmutableCompoundCommand(ncl2);
 
-        CompoundCommand copyCompoundCommand = (CompoundCommand) originalCompoundCommand.clone();
+        ImmutableCompoundCommand copyCompoundCommand = (ImmutableCompoundCommand) originalCompoundCommand.clone();
 
         Iterator<DriverCommand> copyIterator = copyCompoundCommand.iterator();
         Iterator<DriverCommand> originalIterator = originalCompoundCommand.iterator();
 
-        assert (isDifferent(copyIterator, originalIterator) == true);
+        assert (isDifferent(copyIterator, originalIterator));
     }
 
     boolean isDifferent(Iterator<DriverCommand> cl1, Iterator<DriverCommand> cl2) {
@@ -48,8 +45,8 @@ public class CompoundCommandCopyTest {
             DriverCommand object1 = cl1.next();
             DriverCommand object2 = cl2.next();
 
-            if (object1 instanceof CompoundCommand && object2 instanceof CompoundCommand) {
-                boolean result = isDifferent(((CompoundCommand) object1).iterator(), ((CompoundCommand) object2).iterator());
+            if (object1 instanceof ImmutableCompoundCommand && object2 instanceof ImmutableCompoundCommand) {
+                boolean result = isDifferent(((ImmutableCompoundCommand) object1).iterator(), ((ImmutableCompoundCommand) object2).iterator());
 
                 if (!result) return false;
             } else if (object1 instanceof DriverCommand && object2 instanceof DriverCommand) {

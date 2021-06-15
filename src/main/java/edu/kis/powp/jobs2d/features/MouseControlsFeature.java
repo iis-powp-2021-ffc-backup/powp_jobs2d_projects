@@ -77,4 +77,8 @@ public class MouseControlsFeature {
         if (this.listenerAlreadyAttached()) return;
         panel.addMouseListener(mouseListener);
     }
+
+    public void clearListeners() {
+        panel.removeMouseListener(mouseListener);
+    }
 }
