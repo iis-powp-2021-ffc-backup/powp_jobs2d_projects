@@ -4,7 +4,7 @@ import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindowCommandChangeObserver implements Subscriber {
 
-    private CommandManagerWindow commandManagerWindow;
+    private final CommandManagerWindow commandManagerWindow;
 
     public CommandManagerWindowCommandChangeObserver(CommandManagerWindow commandManagerWindow) {
         super();
