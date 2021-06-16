@@ -3,10 +3,12 @@ package edu.kis.powp.jobs2d;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.controller.CommandManagerController;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.command.canvas.Canvas;
 import edu.kis.powp.jobs2d.command.visitor.CanvasFactory;
+
 import edu.kis.powp.jobs2d.drivers.DriverInfoUpdater;
 import edu.kis.powp.jobs2d.drivers.TransformationDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
@@ -22,6 +24,7 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MacroFeature;
+
 import edu.kis.powp.jobs2d.observer.ICheckBoxObserver;
 import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.observer.MouseControlLoggerObserver;
@@ -96,6 +99,7 @@ public class TestJobs2dApp {
         TransformationDriver rotateDriver4 = new TransformationDriver(new Scale(-1d, 1d), new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line"));
         DriverFeature.addDriver("Flip (horizontally)", rotateDriver4);
 
+
         DriverInfoUpdater subscriber = new DriverInfoUpdater();
         DriverFeature.getDriverManager().getPublisher().addSubscriber(subscriber);
     }
@@ -107,7 +111,8 @@ public class TestJobs2dApp {
     }
     
     private static void setupWindows(Application application) {
-        CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
+        CommandManagerController commandManagerController = new CommandManagerController(CommandsFeature.getDriverCommandManager());
+        CommandManagerWindow commandManager = new CommandManagerWindow(commandManagerController);
         application.addWindowComponent("Command Manager", commandManager);
 
         CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
@@ -179,5 +184,4 @@ public class TestJobs2dApp {
             }
         });
     }
-
 }

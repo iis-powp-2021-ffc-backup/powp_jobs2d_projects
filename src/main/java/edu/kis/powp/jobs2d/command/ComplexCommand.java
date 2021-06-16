@@ -8,10 +8,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ComplexCommand implements ICompoundCommand {
+    private String name = "ComplexCommand";
     private final List<DriverCommand> commands;
 
     private ComplexCommand(List<DriverCommand> commands) {
         this.commands = commands;
+    }
+
+    private ComplexCommand(List<DriverCommand> commands, String name) {
+        this.commands = commands;
+        this.name = name;
     }
 
     @Override
