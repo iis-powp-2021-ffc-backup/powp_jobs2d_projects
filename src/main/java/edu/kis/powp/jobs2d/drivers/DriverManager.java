@@ -38,7 +38,7 @@ public class DriverManager {
      * @return Current driver (that is composite driver of main current driver and extensions).
      */
     public synchronized Job2dDriver getCurrentDriver() {
-        return driverComposite;
+        return currentDriver;
     }
 
     public synchronized Publisher getPublisher() {
