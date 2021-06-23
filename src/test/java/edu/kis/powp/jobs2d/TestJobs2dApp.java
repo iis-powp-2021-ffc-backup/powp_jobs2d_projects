@@ -11,6 +11,7 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.json.JsonCommandImporter;
 
+import edu.kis.powp.jobs2d.drivers.MacroDecoratorDriver;
 import edu.kis.powp.jobs2d.features.*;
 import edu.kis.powp.jobs2d.window.command.*;
 
@@ -71,11 +72,9 @@ public class TestJobs2dApp {
 
 		application.addTest("▶ Run command", new SelectRunCurrentCommandOptionListener(driverFeature.getDriverManager()));
 
-		application.addTest("Start recording", new MacroStartListener(driverFeature.getDriverManager()));
-
-		application.addTest("Stop recording", new MacroStopListener(driverFeature.getDriverManager()));
-
 		application.addTest("Load recorded", new MacroLoadListener());
+
+		application.addTest("Clear recorded", new MacroClearListener());
 	}
 
 	private static void setupVisitorTests(Application application) {
@@ -138,8 +137,10 @@ public class TestJobs2dApp {
 
 		Job2dDriver loggerDriver = new LoggerDriver();
 		UsageMonitoringDriver usageMonitoringDriver = new UsageMonitoringDriver();
+		MacroDecoratorDriver macroDriver = new MacroDecoratorDriver();
 		driverUtilsFeature.addUtilsCheckBox("LoggerDriver", loggerDriver, driverFeature.getDriverManager());
 		driverUtilsFeature.addUtilsCheckBox("UsageMonitor", usageMonitoringDriver, driverFeature.getDriverManager());
+		driverUtilsFeature.addUtilsCheckBox("MacroDriver", macroDriver, driverFeature.getDriverManager());
 
 		MouseClickAdapter mouseClickAdapter = new MouseClickAdapter(application.getFreePanel(), driverFeature.getDriverManager());
 		mouseClickAdapter.enable();
